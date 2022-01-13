@@ -27,7 +27,7 @@
 - Abstraction was heavily used. This is evident in a couple of places, 
 
  - like how the `env.ts` file gets the enviroment variables and then makes it available for whichever service or components needs it.
- - like how the `CacheService` does not directly depend on any object or lower-level service(s). And with this approach our service is not tightly coupled to use just one specific database or datasource. For instance, If one day we want to use MySQL or PosgresQL or just whatever DB, the `CacheService.ts` will not change a bit. We just need to create the object in `di-container`, inject it into the constructor and `CacheService` class will work just as normal. Here, we applied `Abstraction`, `Loose coupling`. 
+ - like how the `services/UserService.ts` does not directly depend on any object or lower-level service(s). And with this approach our service is not tightly coupled to use just one specific database or datasource. For instance, If one day we want to use MySQL or PosgresQL or just whatever DB, the `UserService.ts` will not change a bit. We just need to create the object in `di-container`, inject it into the constructor and `UserService` class will work just as normal. Here, we applied `Abstraction`, `Loose coupling`. 
  
 
 - `src/services` contains the service(s) and also the DAOs (Data access objects) which helps abstracts the complexity of services directly making database calls but instead an indirection (`Dependency Inversion`).

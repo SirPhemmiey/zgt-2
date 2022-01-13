@@ -44,7 +44,7 @@ Please see the Postman collection here: https://documenter.getpostman.com/view/3
 
 ## Patterns and Principles used in the project
 
-https://github.com/SirPhemmiey/fct/blob/master/IDEAS.md
+https://gitlab.com/Sir_Femi/pencil/-/blob/master/IDEAS.md
 
 ## Note
 - I couldn't finish the `translate/:url` because of the timeframe i gave myself. Every other thing was done. 

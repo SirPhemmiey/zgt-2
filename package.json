@@ -4,10 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "14.17.4"
+    "node": "14"
   },
   "scripts": {
-    "start": "NODE_ENV=development ts-node src/server.ts",
+    "start_ts": "NODE_ENV=development ts-node src/server.ts",
+    "start": "node build/server.js",
+    "prestart": "tsc",
     "serve": "node build/server.js",
     "build": "yarn run clean && yarn run build-ts",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
