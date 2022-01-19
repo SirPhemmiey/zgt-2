@@ -54,7 +54,7 @@ Step 3. `yarn start:dev` to start the application
 
 `yarn test`
 
-## How to start the Faas offline?
+## How to start the FaaS offline?
 
 `yarn start:offline`
 
@@ -75,7 +75,7 @@ Please see the Postman collection here: https://documenter.getpostman.com/view/3
 ## Things to note 
 
 - I used latest LTS version of Node JS
-- I used 
+- I used AWS lambda as my FaaS provider
 - I used a MySQL because the task has to do with relationships which is the main business requirement in this case. And also the schema wouldn't really change often so i thought it was the best choice. 
 - There's an `hasMany` relationship between `Lead` and `Interests` and `belongsTo` relationhip between `Interests` and `Lead`.
 - I added leads interests in the result for showing all leads
