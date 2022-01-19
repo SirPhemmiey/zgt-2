@@ -2,14 +2,17 @@ import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import { NotFoundError, ApiError, InternalError } from './core/ApiError';
 import { getEnv } from './env';
+import statusCode from 'http-status-codes';
 import Boom from 'boom';
 import { ResponseFormat } from './core/ResponseFormat';
 import morgan from 'morgan';
 import { getService } from './di-container';
-import { translateRoute } from './routes/v1/translate/resource';
-import { parserRoute } from './routes/v1/parse/resource';
-import { fileRoute } from './routes/v1/file/resource';
-import { authRoute } from './routes/v1/auth/resource';
+import { leadRoute } from './routes/v1/lead/resource';
+import Lead from './models/lead';
+import Interest from './models/interest';
+import serverless from 'serverless-http';
+import sequelizeConnection from './clients/sequelize/config';
+
 
 const response = new ResponseFormat();
 
@@ -23,8 +26,18 @@ const app = express();
 app.set("port", process.env.PORT || 3001);
 
 //this is more like a health check endpoint
-app.get("/", (req, res) => {
-  res.json({ status: "up" })
+app.get("/api/v1/health", async (req, res) => {
+  return sequelizeConnection.authenticate().then(() => {
+    res.json({ 
+      system: "up",
+      database: "up",
+     })
+  }).catch((error: any) => {
+    res.status(statusCode.INTERNAL_SERVER_ERROR).json({
+      system: "down",
+      database: "down",
+    });
+  });
 });
 
 app.use(bodyParser.json());
@@ -32,10 +45,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan("tiny"));
 
 // Routes
-app.use('/api/v1/parse', parserRoute);
-app.use('/api/v1/translate', translateRoute);
-app.use('/api/v1/file', fileRoute);
-app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/lead', leadRoute);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(new NotFoundError()));
@@ -56,17 +66,14 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-/**
- * this should not be here but for the sake of having a test user in the DB
- */
-(async() => {
-    await getService().userService.create({
-        name: 'tester',
-        email: 'tester@gmail.com',
-        password: '123'
-    }).then(() => {
-        console.log('test user created!');
-    });
-})()
+//associations
+Lead.hasMany(Interest, {
+  foreignKey: 'lead_id'
+});
+Interest.belongsTo(Lead, {
+  foreignKey: 'lead_id'
+})
+//Interest.belongsTo(Lead);
 
 export default app;
+export const handler = serverless(app);

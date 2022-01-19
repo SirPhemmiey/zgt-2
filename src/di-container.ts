@@ -6,44 +6,25 @@
  * configurations or settings that can be configurable and common to all "services/environments" etc
  */
 
-import { getMongo } from "./clients/mongodb";
-import { getStorage } from "./clients/storage";
-import { AuthService } from "./services/AuthService/AuthService";
-import { FileService } from "./services/FileService/FileService";
-import { ParserService } from "./services/ParseService/ParserService";
-import { TranslateService } from "./services/TranslationService/TranslateService";
-import { UserDao } from "./services/UserService/UserDao";
-import { UserDaoMongo } from "./services/UserService/UserDaoMongo";
-import { UserService } from "./services/UserService/UserService";
+import { InterestDao } from "./services/LeadService/InterestDao";
+import { LeadDao } from "./services/LeadService/LeadDao";
+import { LeadService } from "./services/LeadService/LeadService";
 
  export interface Service {
     //environment: ENV,
 }
 
 export interface ServiceContainer extends Service {
-    authService: AuthService,
-    userDao: UserDao,
-    userService: UserService,
-    parserService: ParserService,
-    fileService: FileService,
-    translateService: TranslateService,
+    leadService: LeadService,
 }
 
 const createContainer = () => {
-    const userDao = new UserDaoMongo(getMongo());
-    const userService = new UserService(userDao);
-    const authService = new AuthService(userDao);
-    const fileService = new FileService({bucket: 'penciltest1'}, getStorage());
-    const parserService = new ParserService();
-    const translateService = new TranslateService();
+    const leadDao = new LeadDao();
+    const interestDao = new InterestDao();
+    const leadService = new LeadService(leadDao, interestDao);
 
     const container: ServiceContainer = {
-        userDao,
-        authService,
-        userService,
-        fileService,
-        parserService,
-        translateService,
+        leadService
     }
     return container;
 };
