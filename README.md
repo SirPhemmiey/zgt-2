@@ -56,7 +56,7 @@ Step 3. `yarn start:dev` to start the application
 
 ## How to start the Faas offline?
 
-`yarn start_offline`
+`yarn start:offline`
 
 ## Endpoints
 
@@ -75,10 +75,11 @@ Please see the Postman collection here: https://documenter.getpostman.com/view/3
 ## Things to note 
 
 - I used latest LTS version of Node JS
+- I used 
 - I used a MySQL because the task has to do with relationships which is the main business requirement in this case. And also the schema wouldn't really change often so i thought it was the best choice. 
 - There's an `hasMany` relationship between `Lead` and `Interests` and `belongsTo` relationhip between `Interests` and `Lead`.
-- I added leads interests in the result of showing all leads
-- I added `/health` checkendpoint to check if database connection is fine and also if overall system is working as expected. In a production ready system we can integrate monitoring/telemetry systems and APMs like `new relic`, `prometheus`+`grafana` etc
+- I added leads interests in the result for showing all leads
+- I added `/health` checkendpoint to check if database connection is okay and also if overall system is working as expected. In a production ready system we can integrate monitoring/telemetry systems and APMs like `new relic`, `prometheus`+`grafana` etc
 - I containerized both development and test databases. See the command [here](https://github.com/SirPhemmiey/zgt#how-to-run-locally) to know how to spin it up in just one single command. 
 - Even though the functionalities are the same, i separated the endpoints for lead to submit request and for ISD to manually add leads and their interests because in future we might want to add extra functionalities to only the lead request form function (which is called by the leads directly) and not to the internal endpoint used to add leads by the ISD. 
 

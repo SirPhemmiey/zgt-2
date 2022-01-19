@@ -3,7 +3,7 @@ import { LeadDao } from "./LeadDao";
 
 export interface LeadRequestForm {
     email: string;
-    phone: number;
+    phone: string;
     first_name: string;
     last_name: string;
     message: string;
@@ -15,6 +15,13 @@ export class LeadService {
 
     async getAllLeads() {
         return this.leadDao.getAll();
+    }
+
+    async deleteById(id: string): Promise<boolean> {
+        const deleteInterestPromise = this.interestDao.deleteById(id);
+        const deleteLeadPromise = this.leadDao.deleteById(id);
+        await Promise.all([deleteInterestPromise, deleteLeadPromise]);
+        return Promise.resolve(true);
     }
 
     async deleteAll() {
@@ -45,10 +52,11 @@ export class LeadService {
             email: doc.email,
             phone: doc.phone
         });
-        const createInterestPromise = this.interestDao.create({
+        const createInterestPromise = await this.interestDao.create({
             lead_id: leadId,
             message: doc.message,
         });
+        console.log({doc, leadId});
         await Promise.all([createLeadPromise, createInterestPromise]).catch((err) => {
             console.log({errorOccred: err.message});
         });

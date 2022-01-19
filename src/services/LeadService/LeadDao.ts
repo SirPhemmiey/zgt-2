@@ -43,6 +43,10 @@ export class LeadDao {
         });
     }
 
+    async deleteById(id: string) {
+        return Lead.destroy({where: { id: id }})
+    }
+
     async deleteAll() {
         //@ts-ignore
         return Lead.destroy({truncate: { cascade: true }, where: {}});

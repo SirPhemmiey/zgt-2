@@ -1,8 +1,6 @@
 
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelizeConnection from '../clients/sequelize/config';
-import LeadDao from './lead';
-
 export interface InterestAttributes {
     id?: string,
     lead_id?: string;
@@ -39,6 +37,10 @@ Interest.init({
     sequelize: sequelizeConnection,
 });
 
+// Interest.belongsTo(Lead, {
+//     foreignKey: 'lead_id'
+//   })
+  
 // Interest.belongsTo(LeadDao);
 
 export default Interest;

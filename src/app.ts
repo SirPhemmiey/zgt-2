@@ -6,13 +6,10 @@ import statusCode from 'http-status-codes';
 import Boom from 'boom';
 import { ResponseFormat } from './core/ResponseFormat';
 import morgan from 'morgan';
-import { getService } from './di-container';
 import { leadRoute } from './routes/v1/lead/resource';
-import Lead from './models/lead';
-import Interest from './models/interest';
 import serverless from 'serverless-http';
 import sequelizeConnection from './clients/sequelize/config';
-
+import './models/associations';
 
 const response = new ResponseFormat();
 
@@ -66,14 +63,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-//associations
-Lead.hasMany(Interest, {
-  foreignKey: 'lead_id'
-});
-Interest.belongsTo(Lead, {
-  foreignKey: 'lead_id'
-})
-//Interest.belongsTo(Lead);
+
 
 export default app;
 export const handler = serverless(app);

@@ -71,3 +71,20 @@ export const deleteAll = (req: Request, res: Response) => {
         return response.handleError(res, output);
     });
 };
+
+export const deleteById = (req: Request, res: Response) => {
+    const base = (req as any).service as ServiceContainer;
+    return base.leadService.deleteById(req.params.lead_id).then(() => {
+        response.handleSuccess(res, {
+            status: messages.SUCCESS,
+            statusCode: statusCode.OK,
+            data: {
+                message: 'Successfully deleted'
+            },
+        });
+    }).catch((err) => {
+        console.error(err.message);
+        const { output } = Boom.badRequest(err.message);
+        return response.handleError(res, output);
+    });
+};

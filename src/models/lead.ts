@@ -1,11 +1,11 @@
 
-import { DataTypes, Model, ModelDefined, Optional } from 'sequelize'
+import { DataTypes, Model, Optional } from 'sequelize'
 import sequelizeConnection from '../clients/sequelize/config';
-
+import Interest from './interest';
 export interface LeadAttributes {
     id: string;
     email: string;
-    phone: number;
+    phone: string;
     first_name: string;
     last_name: string;
     createdAt?: Date;
@@ -18,7 +18,7 @@ export interface LeadOuput extends Required<LeadAttributes> { };
 class Lead extends Model<LeadAttributes, LeadInput> implements LeadAttributes {
     public id!: string;
     public email!: string;
-    public phone!: number;
+    public phone!: string;
     public first_name!: string;
     public last_name!: string;
 
@@ -27,12 +27,9 @@ class Lead extends Model<LeadAttributes, LeadInput> implements LeadAttributes {
     public readonly updatedAt!: Date;
 }
 
-console.log({Lead: Lead.init})
-
 Lead.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
-        //autoIncrement: true,
         primaryKey: true,
         unique: true,
     },
@@ -49,6 +46,10 @@ Lead.init({
     sequelize: sequelizeConnection,
 });
 
+// Lead.hasMany(Interest, {
+//     foreignKey: 'lead_id'
+//   });
+  
 //Lead.hasMany(Interest);
 
 export default Lead;

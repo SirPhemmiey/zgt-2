@@ -4,6 +4,10 @@ export class InterestDao {
 
     constructor() { }
 
+    async deleteById(lead_id: string) {
+        return Interest.destroy({where: { lead_id }})
+    }
+
     async deleteAll() {
         //@ts-ignore
         return Interest.destroy({truncate: { cascade: true }, where: {}});

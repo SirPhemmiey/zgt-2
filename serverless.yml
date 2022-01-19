@@ -37,6 +37,9 @@ functions:
           path: /api/v1/lead/all
           method: DELETE
      - httpApi:
+          path: /api/v1/lead/{lead_id}
+          method: DELETE
+     - httpApi:
           path: /api/v1/lead/submit_request
           method: POST 
     environment:
