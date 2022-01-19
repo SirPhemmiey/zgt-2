@@ -82,7 +82,8 @@ Please see the Postman collection here: https://documenter.getpostman.com/view/3
 - I added `/health` checkendpoint to check if database connection is okay and also if overall system is working as expected. In a production ready system we can integrate monitoring/telemetry systems and APMs like `new relic`, `prometheus`+`grafana` etc
 - I containerized both development and test databases. See the command [here](https://github.com/SirPhemmiey/zgt#how-to-run-locally) to know how to spin it up in just one single command. 
 - Even though the functionalities are the same, i separated the endpoints for lead to submit request and for ISD to manually add leads and their interests because in future we might want to add extra functionalities to only the lead request form function (which is called by the leads directly) and not to the internal endpoint used to add leads by the ISD. 
+- I add input validations using Joi
 
 ## Best practices, patterns and principles used in the project can be found here
 
-https://github.com/sirphemmiey/zgt/-/blob/master/PATTERNS.md
+https://github.com/SirPhemmiey/zgt-2/blob/master/PATTERNS.md
