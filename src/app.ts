@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import { leadRoute } from './routes/v1/lead/resource';
 import serverless from 'serverless-http';
 import sequelizeConnection from './clients/sequelize/config';
+// import '../src/clients/sequelize/init';
 import './models/associations';
 
 const response = new ResponseFormat();

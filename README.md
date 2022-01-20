@@ -43,7 +43,7 @@ MYSQL_PORT_TEST=3310
 Step 1. `yarn install` to install dependencies
 
 Step 2. `yarn start_db` to spin up local development and test mysql database in docker container
-*** it takes about 3-5 seconds for the DB to fully spin up ***
+*** it takes about 3-5 seconds for the DB container to fully spin up ***
 Tip: You can make a simple `GET` request to the `/health` check endpoint to see if the database and other system components are up and running. 
 
 Step 3. `yarn start:dev` to start the application

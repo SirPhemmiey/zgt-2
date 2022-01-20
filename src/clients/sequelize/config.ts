@@ -9,11 +9,17 @@ const dbPassword = getEnv().MYSQL_PASSWORD;
 const dbPort = getEnv().MYSQL_PORT;
 
 console.log({dbName, dbUser, dbPassword, dbHost, dbDriver, dbPort});
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+console.log({isDevelopment});
 
 const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   dialect: dbDriver,
-  port: Number(dbPort) || 3306
+  port: Number(dbPort) || 3306,
+  sync: {
+    alter: isDevelopment,
+  }
 });
 
 export default sequelizeConnection;

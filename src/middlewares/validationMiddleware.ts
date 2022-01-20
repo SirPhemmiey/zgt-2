@@ -12,9 +12,7 @@ const validate = (schema: Joi.Schema) => {
             next();
         } else {
             const { details } = error;
-            console.log({ error });
             const message = details.map(i => i.message).join(',');
-            console.error("error", message);
             const { output } = Boom.badData(message);
             return response.handleError(res, output);
         }
