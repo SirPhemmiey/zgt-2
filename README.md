@@ -21,9 +21,9 @@ MONGO_URI=mongodb://my_user:password123@localhost/zgt-dev
 - You can also create another `.env.test` for testing and copy this content inside it
 
 ```
-PORT=3000
-NODE_ENV=development
-MONGO_URI=mongodb://my_user:password123@localhost/zgt-test
+PORT=3001
+NODE_ENV=test
+MONGO_URI=mongodb://my_user:password123@localhost:27018/zgt-test
 
 ```
 
