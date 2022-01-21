@@ -8,9 +8,11 @@ import { ResponseFormat } from './core/ResponseFormat';
 import morgan from 'morgan';
 import { leadRoute } from './routes/v1/lead/resource';
 import serverless from 'serverless-http';
-import sequelizeConnection from './clients/sequelize/config';
+import { getMongo } from './clients/mongodb/mongo';
+
+// import sequelizeConnection from './clients/sequelize/config';
 // import '../src/clients/sequelize/init';
-import './models/associations';
+// import './models/associations';
 
 const response = new ResponseFormat();
 
@@ -25,17 +27,19 @@ app.set("port", process.env.PORT || 3001);
 
 //this is more like a health check endpoint
 app.get("/api/v1/health", async (req, res) => {
-  return sequelizeConnection.authenticate().then(() => {
+  const state = getMongo().readyState;
+  console.log({state});
+  if (state === 1) {
     res.json({ 
       system: "up",
       database: "up",
      })
-  }).catch((error: any) => {
+  } else {
     res.status(statusCode.INTERNAL_SERVER_ERROR).json({
       system: "down",
       database: "down",
     });
-  });
+  }
 });
 
 app.use(bodyParser.json());
@@ -63,8 +67,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     ApiError.handle(new InternalError(), res);
   }
 });
-
-
 
 export default app;
 export const handler = serverless(app);

@@ -76,7 +76,7 @@ Please see the Postman collection here: https://documenter.getpostman.com/view/3
 
 - I used latest LTS version of Node JS
 - I used AWS lambda as my FaaS provider
-- I used a MySQL because the task has to do with relationships which is the main business requirement in this case. And also the schema wouldn't really change often so i thought it was the best choice. 
+- I used MongoDB as my database but i would have preferred to use a MySQL (which i initially used) because the task has to do with relationships(1:m) but sequelize (ORM) had some problems with serverless.
 - There's an `hasMany` relationship between `Lead` and `Interests` and `belongsTo` relationhip between `Interests` and `Lead`.
 - I added leads interests in the result for showing all leads
 - I added `/health` checkendpoint to check if database connection is okay and also if overall system is working as expected. In a production ready system we can integrate monitoring/telemetry systems and APMs like `new relic`, `prometheus`+`grafana` etc

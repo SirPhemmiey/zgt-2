@@ -13,6 +13,7 @@ export interface SetUpEnv {
     MYSQL_PASSWORD: string,
     MYSQL_DRIVER: string,
     MYSQL_PORT: string,
+    MONGO_URI: string,
 }
 
 export const getEnv = (): SetUpEnv  => {
@@ -25,5 +26,6 @@ export const getEnv = (): SetUpEnv  => {
     MYSQL_PASSWORD: process.env.MYSQL_PASSWORD ?? '',
     MYSQL_DRIVER: process.env.MYSQL_DRIVER ?? '',
     MYSQL_PORT: process.env.MYSQL_PORT ?? '',
+    MONGO_URI: process.env.MONGO_URI ?? '',
   }
 }

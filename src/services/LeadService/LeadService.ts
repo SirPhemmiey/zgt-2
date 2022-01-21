@@ -8,7 +8,6 @@ export interface LeadRequestForm {
     last_name: string;
     message: string;
 }
-//private interestDao: InterestDao
 export class LeadService {
 
     constructor(private leadDao: LeadDao, private interestDao: InterestDao) {}
@@ -44,22 +43,24 @@ export class LeadService {
 
     async createLead(doc: LeadRequestForm) {
         const leadId = `${doc.phone}_${doc.email}`;
-        
-        const createLeadPromise = this.leadDao.findOrCreate(leadId, {
-            id: leadId,
+        const interest = await this.interestDao.create({
+            message: doc.message,
+        });
+        if (!interest) {
+            throw new Error("An error occurred while saving an interest");
+        }
+        const currentInterests = await this.leadDao.getLeadById(leadId);
+        console.log({currentInterests, interest});
+        await this.leadDao.create({
+            _id: leadId,
+            interests: [interest._id, ...currentInterests.interests],
             first_name: doc.first_name,
             last_name: doc.last_name,
             email: doc.email,
             phone: doc.phone
-        });
-        const createInterestPromise = await this.interestDao.create({
-            lead_id: leadId,
-            message: doc.message,
+            
         });
         console.log({doc, leadId});
-        await Promise.all([createLeadPromise, createInterestPromise]).catch((err) => {
-            console.log({errorOccred: err.message});
-        });
         return true;
     }
 }

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import Joi from 'joi';
+import Joi, { ValidationErrorItem } from 'joi';
 import Boom from 'boom';
 import { ResponseFormat } from '../core/ResponseFormat';
 const response = new ResponseFormat();
@@ -11,8 +11,11 @@ const validate = (schema: Joi.Schema) => {
         if (valid) {
             next();
         } else {
-            const { details } = error;
-            const message = details.map(i => i.message).join(',');
+            if (!error) {
+                next();
+            }
+            const details: ValidationErrorItem[] = error.details;
+            const message = details.map((i: ValidationErrorItem) => i.message).join(',');
             const { output } = Boom.badData(message);
             return response.handleError(res, output);
         }
