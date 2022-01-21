@@ -1,44 +1,42 @@
 version: '3.1'
 
-services:
-  mysql:
-    image: mysql
-    container_name: development_database
-    platform: linux/amd64 #because i use M1
-    #command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: abc123
-      MYSQL_DATABASE: isd-db
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_USER: admin
-    ports:
-      - 3309:3306
-    volumes:
-      - /docker-entrypoint-initdb.d
-      - development-mysql-data:/var/lib/mysql
-  
-  mysql2:
-    image: mysql
-    container_name: test_database
-    platform: linux/amd64 #because i use M1
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: abc123
-      MYSQL_DATABASE: isd-db-test
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_USER: admin
-    ports:
-      - 3310:3306
-    volumes:
-      - /docker-entrypoint-initdb.d
-      - test-mysql-data:/var/lib/mysql
+networks:
+  app-tier:
+    driver: bridge
 
-  adminer:
-    image: adminer
+services:
+  mongodb_development:
+    image: 'bitnami/mongodb:latest'
+    container_name: 'development_database'
+    platform: linux/amd64 #because i use M1
     restart: always
+    networks:
+      - app-tier
+    environment:
+      - MONGODB_USERNAME=my_user
+      - MONGODB_PASSWORD=password123
+      - MONGODB_DATABASE=zgt-dev
     ports:
-      - 8081:8080
+      - 27017:27017
+    volumes:
+      - 'mongodb_development_data:/bitnami/mongodb'
+
+  mongodb_test:
+    image: 'bitnami/mongodb:latest'
+    container_name: 'test_database'
+    platform: linux/amd64 #because i use M1
+    restart: always
+    networks:
+      - app-tier
+    environment:
+      - MONGODB_USERNAME=my_user
+      - MONGODB_PASSWORD=password123
+      - MONGODB_DATABASE=zgt-test
+    ports:
+      - 27018:27017
+    volumes:
+      - 'mongodb_test_data:/bitnami/mongodb'
+
 volumes:
-  development-mysql-data:
-  test-mysql-data:
+  mongodb_development_data:
+  mongodb_test_data:

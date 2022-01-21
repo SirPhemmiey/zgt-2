@@ -1,27 +1,15 @@
-import Interest, { InterestAttributes } from "../../models/interest";
 
-export class InterestDao {
+export interface InterestAttributes {
+    message: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
 
-    constructor() { }
+export type InterestAttributesExtended = {_id: string} & InterestAttributes;
 
-    async deleteById(lead_id: string) {
-        return Interest.destroy({where: { lead_id }})
-    }
+export interface InterestDao {
 
-    async deleteAll() {
-        //@ts-ignore
-        return Interest.destroy({truncate: { cascade: true }, where: {}});
-    }
-
-    async create(doc: InterestAttributes) {
-        return Interest.create(doc);
-    }
-
-    async getAll() {
-        return Interest.findAll({
-            order: [
-                ['createdAt', 'DESC']
-            ],
-        })
-    }
+    create(doc: InterestAttributes): Promise<InterestAttributesExtended | undefined>;
+    deleteAll(): Promise<void>;
+    deleteById(id: string): Promise<void>;
 }

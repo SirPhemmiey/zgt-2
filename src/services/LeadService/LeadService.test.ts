@@ -35,7 +35,7 @@ describe('POST /lead/create', () => {
         expect(doesLeadExist.length).toBe(1);
 
         //verify combination of ID
-        expect(doesLeadExist[0].id).toBe(`${leadObject.phone}_${leadObject.email}`);
+        expect(doesLeadExist[0]._id).toBe(`${leadObject.phone}_${leadObject.email}`);
     }, 5000);
 });
 
