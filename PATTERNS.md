@@ -35,7 +35,7 @@
 
 - OOP Paradigm was used. Notable ones are `Polymorphism` (using `implement`) and `Inheritance` (using `extends`)
 
-- Unit testing was done
+- Unit testing was done to test all cases based on the requirements.
 
 - `Boom` was used. It provides a set of utilities for returning HTTP friendly errors in a large scale system
 
