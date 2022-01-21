@@ -10,11 +10,19 @@ const leadObject = {
     email: 'lead1@gmail.com'
 };
 
-// beforeAll(async () => {
-//     await service.leadService.deleteAll().then(() => {
-//         console.log('before database cleared!');
-//     });
-// }, 10000);
+const lead2Object = {
+    first_name: 'second lead name',
+    last_name: 'second lead name',
+    phone: '120233',
+    message: 'i am interested in real estate',
+    email: 'lead2@gmail.com'
+};
+
+beforeAll(async () => {
+    await service.leadService.deleteAll().then(() => {
+        console.log('before database cleared!');
+    });
+}, 10000);
 
 // afterAll(async () => {
 //     await service.leadService.deleteAll().then(() => {
@@ -60,5 +68,15 @@ describe('GET /leads/all', () => {
     it('should return all leads', async () => {
         const response = await service.leadService.getAllLeads();
         expect(response).toBeInstanceOf(Array);
+    });
+
+    it('should ensure that the newest added lead comes first', async () => {
+        const addLeadResponse = await service.leadService.createLead(lead2Object);
+        expect(addLeadResponse).toBe(true);
+
+        const getLeadsResponse = await service.leadService.getAllLeads();
+        expect(getLeadsResponse).toBeInstanceOf(Array);
+        expect(getLeadsResponse[0]._id).toBe(`${lead2Object.phone}_${lead2Object.email}`);
+        expect(getLeadsResponse[0].email).toBe(lead2Object.email);
     });
 });

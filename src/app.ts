@@ -8,11 +8,7 @@ import { ResponseFormat } from './core/ResponseFormat';
 import morgan from 'morgan';
 import { leadRoute } from './routes/v1/lead/resource';
 import serverless from 'serverless-http';
-import { getMongo } from './clients/mongodb/mongo';
-
-// import sequelizeConnection from './clients/sequelize/config';
-// import '../src/clients/sequelize/init';
-// import './models/associations';
+import mongoose from "mongoose";
 
 const response = new ResponseFormat();
 
@@ -27,9 +23,8 @@ app.set("port", process.env.PORT || 3001);
 
 //this is more like a health check endpoint
 app.get("/api/v1/health", async (req, res) => {
-  const state = getMongo().readyState;
-  console.log({state});
-  if (state === 1) {
+  const connection = await mongoose.connect(getEnv().MONGO_URI);
+  if (connection.STATES.connected) {
     res.json({ 
       system: "up",
       database: "up",

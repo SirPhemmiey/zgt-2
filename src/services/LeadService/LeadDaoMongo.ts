@@ -46,14 +46,14 @@ export class LeadDaoMongo implements LeadDao {
     }
 
     deleteById(id: string) {
-        const _id = new Types.ObjectId(id);
-        return this.model.findOneAndRemove({_id: _id as any}).then((v) => {
+        return this.model.findOneAndRemove({_id: id }).then((v) => {
             return;
         })
     }
 
     async getAll(): Promise<LeadAttributes[]> {
-        return this.model.find({}).populate('interests')
+        //.populate('interests')
+        return this.model.find({}).sort({createdAt: -1})
         .then((res) => {
             if (!res) throw new Error('not results found');
             return mapToMongoDocs<LeadAttributes>(res);

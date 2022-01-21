@@ -50,7 +50,6 @@ export class LeadService {
             throw new Error("An error occurred while saving an interest");
         }
         const currentInterests = await this.leadDao.getLeadById(leadId);
-        console.log({currentInterests, interest});
         await this.leadDao.create({
             _id: leadId,
             interests: [interest._id, ...currentInterests.interests],
@@ -60,7 +59,6 @@ export class LeadService {
             phone: doc.phone
             
         });
-        console.log({doc, leadId});
         return true;
     }
 }
