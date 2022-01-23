@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "14"
+    "node": "16"
   },
   "scripts": {
     "start_ts": "NODE_ENV=remove ts-node src/server.ts",
